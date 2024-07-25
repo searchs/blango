@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from configurations import Configuration
 from configurations import values
+import dj_database_url
 
 class Dev(Configuration):
 
@@ -30,7 +31,7 @@ class Dev(Configuration):
   # SECURITY WARNING: don't run with debug turned on in production!
   DEBUG = True
 
-  ALLOWED_HOSTS = ['*']
+  ALLOWED_HOSTS = values.ListValue(["localhost", "0.0.0.0", ".codio.io"])
   X_FRAME_OPTIONS = 'ALLOW-FROM ' + os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io'
   CSRF_COOKIE_SAMESITE = None
   CSRF_TRUSTED_ORIGINS = [os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io']
@@ -87,12 +88,23 @@ class Dev(Configuration):
   # Database
   # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-  DATABASES = {
-      'default': {
-          'ENGINE': 'django.db.backends.sqlite3',
-          'NAME': BASE_DIR / 'db.sqlite3',
-      }
-  }
+#   DATABASES = {
+#       'default': {
+#           'ENGINE': 'django.db.backends.sqlite3',
+#           'NAME': BASE_DIR / 'db.sqlite3',
+#       }
+#   }
+  
+#   DATABASES = {
+#     "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
+#     "alternative": dj_database_url.config(
+#         "ALTERNATIVE_DATABASE_URL",
+#         default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
+#     ),
+#   }
+
+  DATABASES = values.DatabaseURLValue(f"sqlite:///{BASE_DIR}/db.sqlite3")
+
 
 
   # Password validation
@@ -144,3 +156,5 @@ class Dev(Configuration):
 
 class Prod(Dev):
     DEBUG = False
+    SECRET_KEY = values.SecretValue()
+    
