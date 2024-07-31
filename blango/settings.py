@@ -29,9 +29,9 @@ class Dev(Configuration):
     SECRET_KEY = "django-insecure-&!=9y436&^-bc$qia-mxngyf&xx)@ct)8lu@)=qxg_07-=z01w"
 
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
-
-    ALLOWED_HOSTS = values.ListValue(["localhost", "0.0.0.0", ".codio.io"])
+    # DEBUG = True
+    INTERNAL_IPS = ["192.168.10.93"]
+    ALLOWED_HOSTS = values.ListValue(["localhost", "0.0.0.0", ".codio.io", "192.168.10.93"])
     X_FRAME_OPTIONS = (
         "ALLOW-FROM " + os.environ.get("CODIO_HOSTNAME") + "-8000.codio.io"
     )
@@ -42,6 +42,11 @@ class Dev(Configuration):
     CSRF_COOKIE_SAMESITE = "None"
     SESSION_COOKIE_SAMESITE = "None"
 
+    DEBUG = values.BooleanValue(True)
+    TESTING = True
+
+    DEBUG_TOOLBAR = DEBUG and not TESTING
+    
     # Application definition
 
     INSTALLED_APPS = [
@@ -54,9 +59,11 @@ class Dev(Configuration):
         "blog",
         "crispy_forms",
         "crispy_bootstrap5",
+        "debug_toolbar",
     ]
 
     MIDDLEWARE = [
+          "debug_toolbar.middleware.DebugToolbarMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
