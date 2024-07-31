@@ -7,6 +7,7 @@ from blog.models import Post
 
 # Create your views here.
 
+
 def index(request):
     posts = Post.objects.filter(published_at__lte=timezone.now())
     return render(request, "blog/index.html", {"posts": posts})
@@ -31,5 +32,3 @@ def post_detail(request, slug):
     return render(
         request, "blog/post-detail.html", {"post": post, "comment_form": comment_form}
     )
-
-
