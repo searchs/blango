@@ -50,13 +50,14 @@ class Dev(Configuration):
     # Application definition
 
     INSTALLED_APPS = [
+        "blango_auth",
         "django.contrib.admin",
         "django.contrib.auth",
         "django.contrib.contenttypes",
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
-        "blango_auth",
+       
         "blog",
         "crispy_forms",
         "crispy_bootstrap5",
