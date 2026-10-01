@@ -25,8 +25,9 @@ class Dev(Configuration):
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = "django-insecure-&!=9y436&^-bc$qia-mxngyf&xx)@ct)8lu@)=qxg_07-=z01w"
+    # Historical/course repository: supply a real key through the environment
+    # if this project is run locally. Do not use the fallback in production.
+    SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-development-only-key")
 
     # SECURITY WARNING: don't run with debug turned on in production!
     # DEBUG = True
